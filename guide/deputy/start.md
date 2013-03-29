@@ -66,3 +66,21 @@ within the applications bootstrap. Below demonstrates two ways to set roles.
 
 It is generally most appropriate to check access on a per controller basis. Checking access can be 
 performed based on the URI and implementation depends on the applications routing.
+
+
+#Sheriff
+
+Sheriff is an extension of Deputy and allows you to do access control by passing a user id
+
+## Loading Permission/Access
+
+~~~
+$sheriff = Sheriff::instance();
+ 
+$sheriff->access(198); //198 is a user id
+
+$sheriff->allowed_route(); //TRUE or FALSE 
+$sheriff->allowed("/account/edit"); //TRUE or FALSE
+ ~~~
+ 
+[!!] allowed_route() uses the controller and action and currently nothing else, you can manually set a more complicated route just using allowed()
