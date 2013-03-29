@@ -75,12 +75,12 @@ Sheriff is an extension of Deputy and allows you to do access control by passing
 ## Loading Permission/Access
 
 ~~~
-$sheriff = Sheriff::instance();
- 
-$sheriff->access(198); //198 is a user id
-
-$sheriff->allowed_route(); //TRUE or FALSE 
-$sheriff->allowed("/account/edit"); //TRUE or FALSE
- ~~~
+	$sheriff = Sheriff::instance();
+	 
+	$sheriff->access(198); //198 is a user id
+	
+	$sheriff->allowed_route(); //TRUE or FALSE 
+	$sheriff->allowed("/account/edit"); //TRUE or FALSE
+~~~
  
 [!!] allowed_route() uses the controller and action and currently nothing else, you can manually set a more complicated route just using allowed()
