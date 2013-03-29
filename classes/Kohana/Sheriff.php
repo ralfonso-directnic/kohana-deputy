@@ -15,7 +15,7 @@
  * @copyright	(c) 2011-2012 Micheal Morgan
  * @license		MIT
  */
-	class Kohana_Sheriff extends Kohana_Deputy
+	Abstract class Kohana_Sheriff extends Kohana_Deputy
 	{
 		
 	   /*Acts as a wrapper to set_role
@@ -23,29 +23,47 @@
 	    * $account_id 
 	    * 
 	    * */		
-	   
-	   
+		public static function instance(array $config = array()){
+			static $instance;
+			
+			if ($instance === NULL)
+			{
+				$instance = new Sheriff($config);
+			}
+			
+			return $instance;
+		}	 
+		   
+	  public function allowed_route(){
+	  	//this needs more support for added params etc.
+			$route = strtolower("/".Request::current()->controller()."/".Request::current()->action());
+			return $this->allowed($route);
+			
+	  }		 
+			 
 	  public function access($account_id){
 	   	       	
-			$build = DB_ORM::select("UserGroups");
-			$build->join("Groups");
+			$build = DB_SQL::select("default")->from("Desktop.UserGroups");
+			$build->join(INNER,"Desktop.Groups");
 			$build->using("group_id");
-			$build->join("Resources");
+			$build->join(INNER,"Desktop.Resources");
 			$build->using("group_id");
 			$build->where("account_id","=",$account_id);
-			$builder->group_by("route");
+			$build->group_by("route");
 			$results = $build->query();
 		
 			if ($results->is_loaded()) {
 			   foreach ($results as $record) {
-			       $arr[$record->route]=$record->route;
+			  
+					 $record= (object)$record;
+			     $arr[$record->route]=$record->route;
 			   }
 			}
 			
+			
 			if(count($arr)>0){
-				
-				$this->set_role("",$arr);	
-				
+				$routes = array_values($arr);//reduce to numeric keys
+				$this->set_role("",$routes);	
 			}
 	
 		
