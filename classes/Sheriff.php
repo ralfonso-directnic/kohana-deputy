@@ -8,4 +8,4 @@
  * @copyright	(c) 2011-2012 Micheal Morgan
  * @license		MIT
  */
-class Deputy extends Kohana_Deputy {}
+class Sheriff extends Kohana_Sheriff {}
